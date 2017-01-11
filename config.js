@@ -1,30 +1,29 @@
 'use strict';
 
-const path = require('path');
-
 const config = {
 	production: {
 		url: process.env.GHOST_URL,
-			mail: {
+		mail: {
 			transport: 'SMTP',
 			options: {
-				host: process.env.GHOST_SES_HOST,
-				port: 465,
+				host: process.env.GHOST_SES_HOST || 'email-smtp.us-east-1.amazonaws.com',
+				port: process.env.GHOST_SES_PORT || '465',
 				service: 'SES',
 				auth: {
 					user: process.env.GHOST_SES_ACCESS_KEY_ID,
 					pass: process.env.GHOST_SES_SECRET_ACCESS_KEY,
 				},
 			},
+			from: process.env.GHOST_SES_FROM,
 		},
 		database: {
-			client: process.env.GHOST_DATABASE_CLIENT,
+			client: process.env.GHOST_DATABASE_CLIENT || 'pg',
 			connection: {
 				host: process.env.GHOST_DATABASE_HOST,
 				user: process.env.GHOST_DATABASE_USER,
 				password: process.env.GHOST_DATABASE_PASSWORD,
 				database: process.env.GHOST_DATABASE_DATABASE,
-				port: process.env.GHOST_DATABASE_PORT,
+				port: process.env.GHOST_DATABASE_PORT || '5432',
 				charset: process.env.GHOST_DATABASE_CHARSET || 'utf8',
 			},
 		},
@@ -38,8 +37,8 @@ const config = {
 			},
 		},
 		server: {
-			host: process.env.GHOST_HOST,
-			port: process.env.GHOST_PORT,
+			host: process.env.GHOST_HOST || '0.0.0.0',
+			port: process.env.GHOST_PORT || '2368',
 		},
 	},
 };
